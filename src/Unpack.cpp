@@ -105,6 +105,12 @@
 
 #include "Tree.h"
 
+/*config file*/
+#include "json/json.h"
+
+/* Run List. Will be added to json later*/
+TString runList[2] = {"0005","0006"};
+
 #define DEBUG2AND3 0
 
 /****************************************************/
@@ -316,14 +322,31 @@ int main(int argc, char *argv[]) {
     ctrl->startRun = 0; argc = 1; 
   } /* For specific file name, once through loop only. */
   
-  for (Int_t mm = ctrl->startRun; mm<argc; mm++) {
+  // RG Added 2/9/2023
+  //Read and Parse config.json
+  Json::Value config;
+  std::ifstream config_stream("config.json");
+  if(config_stream.fail()){
+    cout << "config.json file not found" << endl;  
+  }
+  config_stream >> config;
+  config_stream.close();
+
+  //for (Int_t mm = ctrl->startRun; mm<argc; mm++) {
+  for (Int_t mm = 0; mm<config["Runs"].size(); mm++) { // RG Added 2/9/2023
     if (!gotsignal) { /* We haven't aborted for some reason. */
       
       timer.Reset(); timer.Start();
       cnt->ResetRunCounters();
       
-      TString runNumber = argv[mm];
-      cnt->runNum = atoi(argv[mm]);
+      /*TString runNumber = argv[mm];
+      cnt->runNum = atoi(argv[mm]);*/ 
+       
+      //Rajesh Added 2/9/2023
+      TString runNumber = config["Runs"][mm].asString();
+      cnt->runNum = atoi(runNumber);
+
+      cout << runNumber << endl;
       
       Int_t fileOK = OpenInputFile(&inf, ctrl, runNumber);
       if (fileOK != 0) { exit(2); }

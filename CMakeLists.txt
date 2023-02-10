@@ -46,7 +46,7 @@ add_definitions(-DWITH_S800)
 #
 # Add the executable, and link it to the libraries
 #
-add_executable(s800GRETINA ${gretina_sources} ${s800_sources})
+add_executable(s800GRETINA ${gretina_sources} ${s800_sources} ${json_source})
 target_link_libraries(s800GRETINA ${ROOT_LIBRARIES} GRETINA S800)
 
 add_executable(GEB_HFC ${CMAKE_CURRENT_SOURCE_DIR}/src/hfc/GEB_HFC.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/hfc/HFC.cpp)
@@ -55,7 +55,7 @@ add_executable(GEB_HFC ${CMAKE_CURRENT_SOURCE_DIR}/src/hfc/GEB_HFC.cpp ${CMAKE_C
 # Copy over files to the build directory
 #
 set(_SCRIPTS
-    #config.json
+    config.json
     crmat.dat
     gretina.set
     track.chat
