@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "SortingStructures.h"
+#include "Utilities.h"
 
 ClassImp(controlVariables);
 ClassImp(counterVariables);
@@ -702,8 +703,8 @@ void counterVariables::PrintRunStatistics(Int_t pgh, Int_t withWAVE, Int_t super
 					  Int_t sort2and3) {
   printf("-----------------------------------------------------------\n");
   if (!pgh) {
-    printf(" Run Statistics:\n");
-    printf(" GRETINA-related data...\n");
+    cout << blue << "Run Statistics: " << reset << endl;
+    cout << magenta << " GRETINA-related data..." << reset << endl;
     if (headerType[TRACK] > 0) 
       printf("  Mode1 GRETINA headers:      %d\n", headerType[TRACK]);
     if (headerType[DECOMP] > 0) 
@@ -716,9 +717,9 @@ void counterVariables::PrintRunStatistics(Int_t pgh, Int_t withWAVE, Int_t super
     if (headerType[GRETSCALER] > 0)
       printf("  Scaler GRETINA headers:     %d\n", headerType[GRETSCALER]);
     if (headerType[BANK88] > 0)
-      printf("  Bank88 GRETINA headers:     %d\n", headerType[BANK88]);
+      printf("  Bank88 GRETINA headers:     %d\n\n", headerType[BANK88]);
     
-    printf("\n Auxiliary detectors...\n");
+    cout << magenta << " Auxiliary detectors..." << reset << endl;
     if (headerType[BGS] > 0) 
       printf("  BGS headers:           %d\n", headerType[BGS]);
     if (headerType[CHICO] > 0) 

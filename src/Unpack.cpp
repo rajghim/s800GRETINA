@@ -107,9 +107,7 @@
 
 /*config file*/
 #include "json/json.h"
-
-/* Run List. Will be added to json later*/
-TString runList[2] = {"0005","0006"};
+#include "Utilities.h"
 
 #define DEBUG2AND3 0
 
@@ -340,13 +338,13 @@ int main(int argc, char *argv[]) {
       cnt->ResetRunCounters();
       
       /*TString runNumber = argv[mm];
-      cnt->runNum = atoi(argv[mm]);*/ 
+      cnt->runNum = atoi(argv[mm]);*/ //RG commented 
        
       //Rajesh Added 2/9/2023
       TString runNumber = config["Runs"][mm].asString();
       cnt->runNum = atoi(runNumber);
 
-      cout << runNumber << endl;
+      cout << green << "Unpacking... "<< yellow << "Run Number: " << runNumber << reset << endl;
       
       Int_t fileOK = OpenInputFile(&inf, ctrl, runNumber);
       if (fileOK != 0) { exit(2); }
@@ -574,7 +572,7 @@ int main(int argc, char *argv[]) {
       cnt->ResetRunCounters();
       
       if (ctrl->withTREE) { 
-	cout << endl << "Writing ROOT tree..." << endl;
+	cout << endl << cyan << "Writing ROOT tree..." << reset <<endl;
 	teb->Write(); 
 #ifdef WITH_S800
 	//scaler->Write();
@@ -591,7 +589,8 @@ int main(int argc, char *argv[]) {
 	gret->gHist.writeHistos(1); 
       }
       if (ctrl->withHISTOS || ctrl->withTREE) {
-	printf("ROOT file \"%s\" closing...\n", ctrl->outfileName.Data());
+	//printf("ROOT file \"%s\" closing...\n", ctrl->outfileName.Data());
+  cout << cyan << " ROOT file " << ctrl->outfileName.Data() << " closing..." << reset << endl;
 	//fout_root->Write();
 	fout_root->Close();
       }
@@ -935,7 +934,7 @@ void PrintHelpInformation() {
 
 void PrintConditions() {
   printf("\n***************************************************************************\n\n");
-  printf("    Initializing -- GRETINA ");
+  cout << yellow << "    Initializing -- GRETINA ";
 #ifdef WITH_BGS
   printf("+ BGS ");
 #endif
@@ -946,7 +945,7 @@ void PrintConditions() {
   printf("+ PHOSWALL ");
 #endif
 #ifdef WITH_S800
-  printf("+ S800 ");
+  cout << "+ S800 ";
 #endif
 #ifndef WITH_BGS
 #ifndef WITH_CHICO
@@ -957,6 +956,6 @@ void PrintConditions() {
 #endif
 #endif
 #endif
-  printf("sort...\n");
+  cout << "sort..."<<reset<<endl;
 
 }
