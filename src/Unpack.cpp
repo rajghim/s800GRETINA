@@ -331,7 +331,7 @@ int main(int argc, char *argv[]) {
   config_stream.close();
 
   //for (Int_t mm = ctrl->startRun; mm<argc; mm++) {
-  for (Int_t mm = 0; mm<config["Runs"].size(); mm++) { // RG Added 2/9/2023
+  for (Int_t mm = 0; mm<config["runs"].size(); mm++) { // RG Added 2/9/2023
     if (!gotsignal) { /* We haven't aborted for some reason. */
       
       timer.Reset(); timer.Start();
@@ -341,7 +341,7 @@ int main(int argc, char *argv[]) {
       cnt->runNum = atoi(argv[mm]);*/ //RG commented 
        
       //Rajesh Added 2/9/2023
-      TString runNumber = config["Runs"][mm].asString();
+      TString runNumber = config["runs"][mm].asString();
       cnt->runNum = atoi(runNumber);
 
       cout << green << "Unpacking... "<< yellow << "Run Number: " << runNumber << reset << endl;
@@ -363,8 +363,8 @@ int main(int argc, char *argv[]) {
 	fout_root = new TFile(ctrl->outfileName.Data(), "RECREATE");
 	fout_root->SetCompressionAlgorithm(1);
 	fout_root->SetCompressionLevel(2);
-	cout << "Output file: " << ctrl->outfileName << " (compression " 
-	     << fout_root->GetCompressionLevel() << ")" << endl;
+	cout << cyan << "Output file: " << ctrl->outfileName << " (compression " 
+	     << fout_root->GetCompressionLevel() << ")" << reset << endl;
       } else {
 	cout << "No ROOT output requested -- no histos or trees. " << endl;
       }
@@ -589,7 +589,6 @@ int main(int argc, char *argv[]) {
 	gret->gHist.writeHistos(1); 
       }
       if (ctrl->withHISTOS || ctrl->withTREE) {
-	//printf("ROOT file \"%s\" closing...\n", ctrl->outfileName.Data());
   cout << cyan << " ROOT file " << ctrl->outfileName.Data() << " closing..." << reset << endl;
 	//fout_root->Write();
 	fout_root->Close();
@@ -934,7 +933,7 @@ void PrintHelpInformation() {
 
 void PrintConditions() {
   printf("\n***************************************************************************\n\n");
-  cout << yellow << "    Initializing -- GRETINA ";
+  cout << yellow << "Initializing -- GRETINA ";
 #ifdef WITH_BGS
   printf("+ BGS ");
 #endif
@@ -957,5 +956,6 @@ void PrintConditions() {
 #endif
 #endif
   cout << "sort..."<<reset<<endl;
+  printf("\n");
 
 }

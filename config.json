@@ -1,4 +1,7 @@
 {
-	"Runs":["0005","0006"]
+	"inputPath" : "/mnt/e/Anna/",
+	"outputPath" : "/mnt/e/Anna/s800GRETINA_Output/",
+	"outputPrefix" : "Run", 
+	"runs" : ["0005","0006"]
 }
 

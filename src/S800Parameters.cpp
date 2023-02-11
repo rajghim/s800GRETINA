@@ -5,6 +5,8 @@
        Date: October 2010                                */
 
 #include "S800Parameters.h"
+#include "Utilities.h"
+
 
 #include <string>
 #include <sstream>
@@ -191,11 +193,11 @@ void S800Map::Initialize(S800Full *s800) {
 }
 
 void S800Map::LoadInverseMap(TString filename) {
-  cout << "Loading S800 inverse map " << filename.Data() << "...";
+  cout << "Loading S800 inverse map " << filename.Data() << "..." << endl;
 
   FILE *file;
   if ( (file = fopen(filename.Data(), "r")) == NULL ) {
-    printf("\n Inverse map file %s was not found!\n", filename.Data());
+    printf("Inverse map file %s was not found!\n", filename.Data());
     return;
   }
 
@@ -3218,6 +3220,7 @@ void S800Full::InitializeS800Variables(TString inputFilename) {
     return;
   }
 
+  cout << blue << "S800 set,inv,scaler files..." << reset << endl;
   cout << "Reading variable initialization file: "
        << inputFilename.Data() << endl;
 

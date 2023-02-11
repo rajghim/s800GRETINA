@@ -1,4 +1,7 @@
 #include "UnpackUtilities.h"
+#include "json/json.h"
+#include "Utilities.h"
+
 
 Int_t OpenInputFile(FILE** inf, controlVariables* ctrl, TString runNumber) {
   
@@ -198,25 +201,41 @@ Int_t OpenInputFile(FILE** inf, controlVariables* ctrl, TString runNumber) {
   
   if (!*inf) {
 
-    printf("Cannot open: %s \n", ctrl->fileName.Data());
+	cout << red << "Cannot open: " << ctrl->fileName.Data() << reset <<endl;
     return(2);
 
   } else {
     
-    printf("Opened: %s \n", ctrl->fileName.Data());  
+	cout << cyan << "Opened: " << ctrl->fileName.Data() << reset <<endl;
     
-    if (ctrl->fileType != "f" && ctrl->fileType != "f1" && ctrl->fileType != "f2") {
-      ctrl->outfileName = (ctrl->directory + "Run" + runNumber + "/Run" + runNumber +
-			   ctrl->outputSuffix + ".root");
+	// RG Commented 2/10/2023
+    /*if (ctrl->fileType != "f" && ctrl->fileType != "f1" && ctrl->fileType != "f2") {
+      //ctrl->outfileName = (ctrl->directory + "Run" + runNumber + "/Run" + runNumber +
+			   //ctrl->outputSuffix + ".root"); // RG Commented 2/10/2023
     } else {
       
       if (ctrl->outfileName == "") {
 	ctrl->outfileName = ("./ROOTFiles/test.root");
-      } else { /* Do nothing, we have a filename. */ } 
+      } else { 
+		// Do nothing, we have a filename. 
+	  }
 
-    }
+
+    } */
+
+	//RG Added 2/10/2023
+	//Read and Parse config.json
+	Json::Value config;
+	std::ifstream config_stream("config.json");
+	if(config_stream.fail()){
+		cout << "config.json file not found" << endl;  
+	}
+	config_stream >> config;
+	config_stream.close();
+    ctrl->outfileName = config["outputPath"].asString() + config["outputPrefix"].asString() + runNumber + ctrl->outputSuffix + ".root";
     
-    return(0);
+	
+	return(0);
   }
   
   return(0);

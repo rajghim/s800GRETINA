@@ -1,4 +1,6 @@
 #include "GRETINA.h"
+#include "Utilities.h"
+
 
 ClassImp(rotationMatrix);
 ClassImp(globalHeader);
@@ -1334,6 +1336,8 @@ void GRETINAVariables::ReadGeCalFile(TString filename) {
 
 
 void GRETINAVariables::ReadSegmentCenters(TString filename) {
+  cout << blue << "Gretina set,crmat,calib files..." << reset << endl;
+
   FILE *fp;
   Int_t i1, i2, nn;  Float_t f1, f2, f3;
   char *st, str[128];

@@ -9,6 +9,7 @@
 #include <stdlib.h>
 
 #include "SortingStructures.h"
+#include "json/json.h"
 #include "Utilities.h"
 
 ClassImp(controlVariables);
@@ -266,7 +267,19 @@ Int_t controlVariables::InterpretCommandLine(int argc, char *argv[]) {
       i++;
     }
     else if (strcmp(argv[i], "-d") == 0) {
-      directory = argv[i+1];
+      //directory = argv[i+1]; //RG Commented 2/11/2023
+      //RG Added 2/11/2023
+      //Read and Parse config.json
+      Json::Value config;
+      std::ifstream config_stream("config.json");
+      if(config_stream.fail()){
+        cout << "config.json file not found" << endl;  
+      }
+      config_stream >> config;
+      config_stream.close();
+
+      directory = config["inputPath"].asString();
+      
       i += 2;
     }
     else if (strcmp(argv[i], "-run") == 0) {
@@ -345,8 +358,8 @@ Int_t controlVariables::InterpretCommandLine(int argc, char *argv[]) {
 /****************************************************/
 
 Int_t controlVariables::ReportRunFlags() {
-  cout << "  Analysis conditions: " << endl;
-  cout << "     Expecting ";
+  cout << blue << "Analysis conditions: " << reset << endl;
+  cout << "Expecting ";
   if (compressedFile) {
     cout << " compressed ";
   } 
@@ -369,16 +382,16 @@ Int_t controlVariables::ReportRunFlags() {
     cout << endl;
   }
   if (withTREE && withHISTOS ) {
-    cout << "     Will write out a ROOT tree and defined histograms." << endl;
+    cout << "Will write out a ROOT tree and defined histograms." << endl;
   }
   if (withTREE && !withHISTOS) {
-    cout << "     Will write out a ROOT tree, but no histograms. " << endl;
+    cout << "Will write out a ROOT tree, but no histograms. " << endl;
   }
   if (!withTREE && withHISTOS) {
-    cout << "     Will write out defined histograms, but no ROOT tree. " << endl;
+    cout << "Will write out defined histograms, but no ROOT tree. " << endl;
   }
   if (!withTREE && !withHISTOS && !superPulse) {
-    cout << "     You aren't planning on writing histograms or a tree...are you sure you want to proceed? ('yes' or 'no')" << endl;
+    cout << "You aren't planning on writing histograms or a tree...are you sure you want to proceed? ('yes' or 'no')" << endl;
     char answer[50];
     cin >> answer;
     if (strcmp(answer, "yes") != 0) {
@@ -387,25 +400,25 @@ Int_t controlVariables::ReportRunFlags() {
     }
   }
   if (noHFC && suppressTS) {
-    cout << "     Will NOT use Dirk's GEB_HFC resorter code, and will ignore TS order errors. " << endl;
+    cout << "Will NOT use Dirk's GEB_HFC resorter code, and will ignore TS order errors. " << endl;
   }
   if (noHFC && !suppressTS) {
-    cout << "     Will NOT use Dirk's GEB_HFC resorter code, and will print any observed TS order errors. " << endl;
+    cout << "Will NOT use Dirk's GEB_HFC resorter code, and will print any observed TS order errors. " << endl;
   }
   if (!noHFC && suppressTS) {
-    cout << "     Will use Dirk's GEB_HFC resorter code, and will print any observed TS order errors. " << endl;
+    cout << "Will use Dirk's GEB_HFC resorter code, and will print any observed TS order errors. " << endl;
   }
   if (!noHFC && !suppressTS) {
-    cout << "     Will use Dirk's GEB_HFC resorter code, and will ignore TS order errors. " << endl;
+    cout << "Will use Dirk's GEB_HFC resorter code, and will ignore TS order errors. " << endl;
   }
   if (doTRACK) { 
-    cout << "     Will try really hard to do tracking, using Torben's code. " << endl;
+    cout << "Will try really hard to do tracking, using Torben's code. " << endl;
   }
   if (withWAVE) {
-    cout << "     Will do some waveform analysis on GRETINA waveforms, as specified with flags in Unpack.h. " << endl;
+    cout << "Will do some waveform analysis on GRETINA waveforms, as specified with flags in Unpack.h. " << endl;
   }
   if (outputON) {
-    cout << "     Will generate combined output data file with processed aux data where appropriate (i.e. mode9 S800Physics) " << endl;
+    cout << "Will generate combined output data file with processed aux data where appropriate (i.e. mode9 S800Physics) " << endl;
   }
   return(1);
 }

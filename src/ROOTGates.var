@@ -180,7 +180,7 @@
   incomingBeam = incomingAllE11029;
   outgoingBeam = e11007Big;
 
-  cout << "Set S800 gates to " << endl
+  cout << blue << "Set S800 gates to... " << reset <<endl
        << " incomingBeam = " << incomingBeam->GetName() << endl
        << " outgoingBeam = " << outgoingBeam->GetName() << endl;
 
