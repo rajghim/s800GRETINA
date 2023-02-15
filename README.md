@@ -13,5 +13,7 @@ make
 ```
 
 ## Running
-After installing, run the executable 
+After installing, run the executable with necessary flags
+```
+./s800GRETINA -g -zip -d
 ```
